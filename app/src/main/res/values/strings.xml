@@ -5,4 +5,9 @@
   <string name="action_settings">Settings</string>
   <string name="following">Following</string>
   <string name="follow">Follow</string>
+
+  <string name="element_text">Element</string>
+  <string name="item_element_text">This is element #</string>
+  <string name="middle">This is the middle!</string>
+
 </resources>
