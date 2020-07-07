@@ -24,12 +24,15 @@ public class MainActivity extends AppCompatActivity {
     teams.add(new Team("USA"));
     teams.add(new Team("Belgium"));
     teams.add(new Team("Germany"));
+
     teams.add(new Team("Philippines"));
     teams.add(new Team("Australia"));
     teams.add(new Team("Costa Rica"));
+
     teams.add(new Team("Mexico"));
     teams.add(new Team("Korea"));
     teams.add(new Team("Brazil"));
+
     teams.add(new Team("Chile"));
     teams.add(new Team("Uruguay"));
     teams.add(new Team("Colombia"));

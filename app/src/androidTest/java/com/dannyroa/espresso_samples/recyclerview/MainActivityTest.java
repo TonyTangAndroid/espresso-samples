@@ -9,6 +9,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.dannyroa.espresso_samples.recyclerview.TestUtils.withRecyclerView;
 
+import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
@@ -50,6 +52,13 @@ public class MainActivityTest {
   public void checkTest() {
     onView(withText("USA")).check(matches(isDisplayed()));
     onView(withText("Colombia")).check(doesNotExist());
+  }
+
+  @Test
+  public void scrollToCertainItem_checkItsText() {
+    onView(ViewMatchers.withId(R.id.recycler_view))
+        .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
+    onView(withText("Uruguay")).check(matches(isDisplayed()));
   }
 
 }
