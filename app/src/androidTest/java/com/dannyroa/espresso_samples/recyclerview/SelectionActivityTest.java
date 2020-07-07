@@ -7,6 +7,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -31,18 +32,17 @@ public class SelectionActivityTest {
 
 
   @Rule
-  public ActivityScenarioRule<SelectionActivity> activityScenarioRule =
-      new ActivityScenarioRule<SelectionActivity>(SelectionActivity.class);
+  public ActivityScenarioRule<SelectionActivity> activityScenarioRule = new ActivityScenarioRule<>(SelectionActivity.class);
 
   @Test
   public void scrollToItemBelowFold_checkItsText() {
     // First scroll to the position that needs to be matched and click on it.
-    onView(ViewMatchers.withId(R.id.recycler_view))
-        .perform(RecyclerViewActions.actionOnItemAtPosition(ITEM_BELOW_THE_FOLD, click()));
+    ViewAction action = RecyclerViewActions.actionOnItemAtPosition(ITEM_BELOW_THE_FOLD, click());
+    onView(ViewMatchers.withId(R.id.recycler_view)).perform(action);
 
     // Match the text in an item below the fold and check that it's displayed.
     String itemElementText = getApplicationContext().getResources().getString(
-        R.string.item_element_text) + String.valueOf(ITEM_BELOW_THE_FOLD);
+        R.string.item_element_text) + ITEM_BELOW_THE_FOLD;
     onView(withText(itemElementText)).check(matches(isDisplayed()));
   }
 

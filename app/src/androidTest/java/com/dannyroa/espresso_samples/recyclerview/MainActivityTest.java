@@ -9,6 +9,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.dannyroa.espresso_samples.recyclerview.TestUtils.withRecyclerView;
 
+import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
@@ -29,8 +30,8 @@ public class MainActivityTest {
 
   @Test
   public void itemClick() {
-
-    onView(withRecyclerView(R.id.recycler_view).atPosition(1)).perform(click());
+    onView(ViewMatchers.withId(R.id.recycler_view))
+        .perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 
     onView(withId(R.id.team_name)).check(matches(isDisplayed()));
   }
@@ -39,24 +40,56 @@ public class MainActivityTest {
   public void followButton_Click() {
     onView(withId(R.id.recycler_view))
         .perform(TestUtils.actionOnItemViewAtPosition(1, R.id.follow_button, click()));
-    String followingText =
-        InstrumentationRegistry.getInstrumentation()
-            .getTargetContext()
-            .getString(R.string.following);
-
     onView(withRecyclerView(R.id.recycler_view).atPositionOnView(1, R.id.follow_button))
-        .check(matches(withText(followingText)));
+        .check(matches(withText(followingText())));
+  }
+
+
+  @Test
+  public void followButton_Click_2() {
+
+    //Confirm there is not following button before clicked
+    onView(withText(followingText())).check(doesNotExist());
+    //Another way to confirm that the follow button is available.
+    onView(withRecyclerView(R.id.recycler_view).atPositionOnView(0, R.id.follow_button))
+        .check(matches(withText("Follow")));
+    onView(withRecyclerView(R.id.recycler_view).atPositionOnView(1, R.id.follow_button))
+        .check(matches(withText("Follow")));
+
+    //Click the following button
+    onView(withId(R.id.recycler_view))
+        .perform(TestUtils.actionOnItemViewAtPosition(1, R.id.follow_button, click()));
+
+    //Verify following button existed
+    onView(withText(followingText())).check(matches(isDisplayed()));
+
+    //Another approach to verify the following button existed.
+    onView(withRecyclerView(R.id.recycler_view).atPositionOnView(1, R.id.follow_button))
+        .check(matches(withText(followingText())));
+
+    onView(withRecyclerView(R.id.recycler_view).atPositionOnView(0, R.id.follow_button))
+        .check(matches(withText("Follow")));
+
+
+  }
+
+  private String followingText() {
+    return InstrumentationRegistry.getInstrumentation()
+        .getTargetContext()
+        .getString(R.string.following);
   }
 
   @Test
   public void checkTest() {
-    onView(withText("USA")).check(matches(isDisplayed()));
-    onView(withText("Colombia")).check(doesNotExist());
+    ViewInteraction viewInteraction = onView(withText("USA"));
+    viewInteraction.check(matches(isDisplayed()));
+    ViewInteraction colombia = onView(withText("Colombia"));
+    colombia.check(doesNotExist());
   }
 
   @Test
   public void scrollToCertainItem_checkItsText() {
-    onView(ViewMatchers.withId(R.id.recycler_view))
+    onView(withId(R.id.recycler_view))
         .perform(RecyclerViewActions.actionOnItemAtPosition(10, click()));
     onView(withText("Uruguay")).check(matches(isDisplayed()));
   }
