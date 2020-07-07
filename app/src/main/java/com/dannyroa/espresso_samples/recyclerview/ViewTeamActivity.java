@@ -6,9 +6,6 @@ import android.os.Bundle;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * Created by dannyroa on 5/8/15.
- */
 public class ViewTeamActivity extends AppCompatActivity {
 
   private static final String EXTRA_TEAM_NAME = "extra_team_name";
