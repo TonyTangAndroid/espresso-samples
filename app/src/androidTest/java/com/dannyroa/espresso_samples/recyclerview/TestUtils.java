@@ -16,7 +16,7 @@ import org.hamcrest.Matchers;
  */
 public class TestUtils {
 
-  public static <VH extends RecyclerView.ViewHolder> ViewAction actionOnItemViewAtPosition(
+  public static ViewAction actionOnItemViewAtPosition(
       int position, @IdRes int viewId, ViewAction viewAction) {
     return new ActionOnItemViewAtPositionViewAction(position, viewId, viewAction);
   }
@@ -26,9 +26,7 @@ public class TestUtils {
     return new RecyclerViewMatcher(recyclerViewId);
   }
 
-  private static final class ActionOnItemViewAtPositionViewAction<
-      VH extends RecyclerView.ViewHolder>
-      implements ViewAction {
+  private static final class ActionOnItemViewAtPositionViewAction implements ViewAction {
 
     private final int position;
     private final ViewAction viewAction;
@@ -42,10 +40,9 @@ public class TestUtils {
     }
 
     public Matcher<View> getConstraints() {
-      return Matchers.allOf(
-          new Matcher[]{
-              ViewMatchers.isAssignableFrom(RecyclerView.class), ViewMatchers.isDisplayed()
-          });
+      Matcher<View> displayed = ViewMatchers.isDisplayed();
+      Matcher<View> assignableFrom = ViewMatchers.isAssignableFrom(RecyclerView.class);
+      return Matchers.allOf(assignableFrom, displayed);
     }
 
     public String getDescription() {
@@ -85,10 +82,9 @@ public class TestUtils {
     }
 
     public Matcher<View> getConstraints() {
-      return Matchers.allOf(
-          new Matcher[]{
-              ViewMatchers.isAssignableFrom(RecyclerView.class), ViewMatchers.isDisplayed()
-          });
+      Matcher<View> assignableFrom = ViewMatchers.isAssignableFrom(RecyclerView.class);
+      Matcher<View> displayed = ViewMatchers.isDisplayed();
+      return Matchers.allOf(assignableFrom, displayed);
     }
 
     public String getDescription() {
