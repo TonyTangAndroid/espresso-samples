@@ -73,11 +73,11 @@ public class TestUtils {
     }
   }
 
-  private static final class ScrollToPositionViewAction implements ViewAction {
+  public static final class ScrollToPositionViewAction implements ViewAction {
 
     private final int position;
 
-    private ScrollToPositionViewAction(int position) {
+    public ScrollToPositionViewAction(int position) {
       this.position = position;
     }
 
